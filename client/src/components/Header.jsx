@@ -1,5 +1,5 @@
 import { Button, Navbar, NavbarToggle, TextInput } from 'flowbite-react';
-import { Link ,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon } from 'react-icons/fa';
 const Header = () => {
@@ -27,22 +27,22 @@ const Header = () => {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-2 md:order-2">
-        <Button className="hidden sm:inline w-12 h-10" color="gray" pill>
+        <Button className="hidden sm:inline w-12 h-10" color="gray" pill >
           <FaMoon />
         </Button>
         <Link to="/sign-in">
-          <Button gradientDuoTone="purpleToBlue">SignIn</Button>
+          <Button gradientDuoTone="purpleToBlue" outline>SignIn</Button>
         </Link>
         <NavbarToggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active = {path === "/"} as={'div'} >
+        <Navbar.Link active={path === '/'} as={'div'}>
           <Link to="/">Home</Link>
         </Navbar.Link>
-        <Navbar.Link active = {path === "/about"} as={'div'}>
+        <Navbar.Link active={path === '/about'} as={'div'}>
           <Link to="/about">About</Link>
         </Navbar.Link>
-        <Navbar.Link active = {path === "/projects"} as={'div'}>
+        <Navbar.Link active={path === '/projects'} as={'div'}>
           <Link to="/projects">Projects</Link>
         </Navbar.Link>
       </Navbar.Collapse>
