@@ -34,7 +34,7 @@ const SignUp = () => {
       }
       // console.log(data);
       setLoading(false);
-      console.log(response);
+      // console.log(response);
       if (response.ok) {
         navigate('/sign-in');
       }
