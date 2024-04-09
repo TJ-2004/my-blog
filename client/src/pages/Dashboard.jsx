@@ -5,16 +5,16 @@ import DashProfile from '../components/DashProfile';
 
 const Dashboard = () => {
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const [tab, setTab] = useState('');
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    console.log(urlParams);
+    // console.log(urlParams);
     const tabFromUrl = urlParams.get('tab');
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
-    console.log(tabFromUrl);
+    // console.log(tabFromUrl);
   }, [location.search]);
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
