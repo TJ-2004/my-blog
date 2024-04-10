@@ -70,6 +70,7 @@ const DashProfile = () => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileURL(downloadURL);
+          // console.log(downloadURL);
         });
       },
     );

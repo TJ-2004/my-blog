@@ -68,7 +68,7 @@ export const google = async (req, res, next) => {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password, ...rest } = user._doc;
       // console.log(password);
-      
+      // console.log(token);
       res
         .status(200)
         .cookie('access_token', token, {
@@ -84,7 +84,7 @@ export const google = async (req, res, next) => {
         username:
           name.toLowerCase().split(' ').join('') +
           Math.random().toString(9).slice(-4),
-        //Tanishq Jaiswal => tansihqjaiswak37574
+        //Tanishq Jaiswal => tansihqjaiswal37574
         email,
         password: hashedPassword,
         profilePicture: googlePhotoUrl,
