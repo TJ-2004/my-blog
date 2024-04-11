@@ -18,11 +18,12 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  signoutSuccess,
 } from '../redux/user/userSlice.js';
 
 const DashProfile = () => {
   const dispatch = useDispatch();
-  const { currentUser ,error } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   // console.log(currentUser);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
@@ -141,16 +142,16 @@ const DashProfile = () => {
     }
   };
   const handleDeleteUser = async () => {
-    console.log('Deleted');
+    // console.log('Deleted');
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
       const response = await fetch(`/api/user/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
-      console.log(response);
+      // console.log(response);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (!response.ok) {
         dispatch(deleteUserFailure(data.message));
       } else {
@@ -158,6 +159,21 @@ const DashProfile = () => {
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch('/api/user/signout', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signoutSuccess(data));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -236,7 +252,9 @@ const DashProfile = () => {
         <span className="cursor-pointer" onClick={() => setShowModal(true)}>
           Delete Account
         </span>
-        <span className="cursor-pointer">Sign Out</span>
+        <span className="cursor-pointer" onClick={handleSignOut}>
+          Sign Out
+        </span>
       </div>
       {updateUserSuccess && (
         <Alert color="success" className="mt-5">
@@ -270,7 +288,7 @@ const DashProfile = () => {
             </h3>
             <div className="flex justify-center gap-8">
               <Button color="failure" onClick={handleDeleteUser}>
-                Yes I'm sure
+                Yes Im sure
               </Button>
               <Button color="gray" onClick={() => setShowModal(false)}>
                 No, cancel
