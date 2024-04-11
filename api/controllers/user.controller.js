@@ -31,24 +31,35 @@ export const updateUser = async (req, res, next) => {
         errorHandler(400, 'Username can contain only letters and numbers'),
       );
     }
-    try {
-      const updateUser = await User.findByIdAndUpdate(
-        req.params.userId,
-        {
-          $set: {
-            username: req.body.username,
-            email: req.body.email,
-            profilePicture: req.body.profilePicture,
-            password: req.body.password,
-          },
+  }
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          profilePicture: req.body.profilePicture,
+          password: req.body.password,
         },
-        { new: true },
-      );
-      // console.log(updateUser);
-      const { password, ...rest } = updateUser._doc;
-      res.status(200).json(rest);
-    } catch (error) {
-      next(error);
-    }
+      },
+      { new: true },
+    );
+    // console.log(updateUser);
+    const { password, ...rest } = updateUser._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+export const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.userId) {
+    return next(errorHandler(403, 'You are not allowed to delete this user'));
+  }
+  try {
+    await User.findByIdAndDelete(req.params.userId);
+    res.status(200).json({ message: 'User Deleted' });
+  } catch (error) {
+    next(error);
   }
 };

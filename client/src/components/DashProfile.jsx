@@ -30,6 +30,7 @@ const DashProfile = () => {
   const [updateUserError, setUpdateUserError] = useState(null);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   // console.log(imageFileUploadProgress, imageFileUploadError);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -86,20 +87,23 @@ const DashProfile = () => {
           setFormData({ ...formData, profilePicture: downloadURL });
           // console.log(downloadURL);
           setImageFileUploading(false);
+          // setImageFileUploadProgress(null);
         });
       },
     );
   };
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
   // console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
     if (Object.keys(formData).length === 0) {
-      setUpdateUserError('No Changes Made');
+      setUpdateUserError('Nothing to Update!');
       return;
     }
     if (imageFileUploading) {
@@ -120,16 +124,18 @@ const DashProfile = () => {
       // console.log(data.message);
       if (!response.ok) {
         dispatch(updateFailure(data.message));
-        setImageFileUploadError(data.message);
+        setUpdateUserError(data.message);
       } else {
         dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
+        setUpdateUserSuccess("Updated Sucessfully!");
+        setImageFileUploadProgress(null);
       }
     } catch (error) {
       dispatch(updateFailure(error.message));
-      setImageFileUploadError(error.message);
+      setUpdateUserError(error.message);
     }
   };
+  
   return (
     <div className="max-w-lg mx-auto  w-full p-3">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
