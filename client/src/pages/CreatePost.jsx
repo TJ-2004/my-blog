@@ -2,6 +2,7 @@ import { Button, FileInput, Select, TextInput, Alert } from 'flowbite-react';
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {useNavigate} from "react-router-dom"
 import {
   getDownloadURL,
   getStorage,
@@ -13,10 +14,15 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
 export default function CreatePost() {
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+  //   console.log(file);
+  // console.log(formData);
+  //   console.log(file.name);
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -44,19 +50,46 @@ export default function CreatePost() {
             setImageUploadProgress(null);
             setImageUploadError(null);
             setFormData({ ...formData, image: downloadURL });
+            // console.log(downloadURL)
           });
+          // console.log(formData.image);
         },
       );
     } catch (error) {
       setImageUploadError('Image Upload Failed');
       setImageUploadProgress(null);
-      console.log(error);
+      //   console.log(error);
+    }
+  };
+  //   console.log(formData)
+  //   console.log(formData?.image);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/post/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      // console.log(data);
+      if (!response.ok) {
+        setPublishError(data.message);
+      } else {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`)
+      }
+    } catch (error) {
+      setPublishError('Something went wrong');
+      // console.log(error);
     }
   };
   return (
     <div className="min-h-screen p-3 max-w-3xl  mx-auto">
       <h1 className="text-center text-3xl my-7 font-semibold">Create Post</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col sm:flex-row gap-4 justify-between">
           <TextInput
             className="flex-1"
@@ -64,8 +97,15 @@ export default function CreatePost() {
             placeholder="Title"
             required
             id="title"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-          <Select>
+          <Select
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
             <option value="uncategorized">Select a category</option>
             <option value="javascript">JavaScript</option>
             <option value="reactjs">ReactJs</option>
@@ -89,7 +129,7 @@ export default function CreatePost() {
             {imageUploadProgress ? (
               <div className="w-16 h-16">
                 <CircularProgressbar
-                  value={imageUploadProgress}
+                  value={imageUploadProgress || 0}
                   text={`${imageUploadProgress || 0}%`}
                 />
               </div>
@@ -99,16 +139,28 @@ export default function CreatePost() {
           </Button>
         </div>
         {imageUploadError && <Alert color="failure">{imageUploadError}</Alert>}
-        {formData?.image && <img src={formData.image} alt='upload' className='w-full h-32 object-cover'  /> }
+        {formData.image && (
+          <img
+            src={formData.image}
+            alt="upload"
+            className="w-full h-64 object-cover"
+          />
+        )}
         <ReactQuill
           theme="snow"
           className="h-72 mb-12"
           placeholder="Write Something..."
           required
+          onChange={(value) => setFormData({ ...formData, content: value })}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
         </Button>
+        {publishError && (
+          <Alert color="failure" className="mt-5">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );
