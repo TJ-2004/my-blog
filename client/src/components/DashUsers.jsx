@@ -9,6 +9,7 @@ export default function DashUsers() {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(true);
+  const [showLess, setShowLess] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState('');
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function DashUsers() {
           setUsers(data.users);
           if (data.users.length < 9) {
             setShowMore(false);
+            setShowLess(false);
           }
         }
       } catch (error) {
@@ -41,6 +43,22 @@ export default function DashUsers() {
         setUsers((prev) => [...prev, ...data.users]);
         if (data.users.length < 9) {
           setShowMore(false);
+          setShowLess(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleShowLess = async () => {
+    try {
+      const response = await fetch(`/api/user/getusers`);
+      const data = await response.json();
+      if (response.ok) {
+        setUsers([...data.users]);
+        if (data.users.length === 9) {
+          setShowMore(true);
+          setShowLess(false);
         }
       }
     } catch (error) {
@@ -122,6 +140,14 @@ export default function DashUsers() {
               className="w-full text-teal-500  text-sm py-7 self-center"
             >
               Show More
+            </button>
+          )}
+          {showLess && (
+            <button
+              onClick={handleShowLess}
+              className="w-full text-teal-500  text-sm py-7 self-center"
+            >
+              Show Less
             </button>
           )}
         </>
