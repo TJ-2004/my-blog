@@ -32,7 +32,7 @@ export default function UpdatePost() {
         const response = await fetch(`/api/post/getposts?postId=${postId}`);
         const data = await response.json();
         if (!response.ok) {
-          console.log(data.message);
+          // console.log(data.message);
           setPublishError(data.message);
           return;
         }
