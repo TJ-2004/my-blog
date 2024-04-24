@@ -20,7 +20,7 @@ export default function DashUsers() {
         if (response.ok) {
           setUsers(data.users);
           if (data.users.length < 9) {
-            setShowMore(false);
+            setShowMore(true);
             setShowLess(false);
           }
         }
@@ -44,6 +44,10 @@ export default function DashUsers() {
         if (data.users.length < 9) {
           setShowMore(false);
           setShowLess(true);
+        }
+        if (data.users.length === 0) {
+          setShowMore(false);
+          setShowLess(false);
         }
       }
     } catch (error) {
@@ -134,7 +138,7 @@ export default function DashUsers() {
               </Table.Body>
             ))}
           </Table>
-          {showMore && (
+          {showMore &&  (
             <button
               onClick={handleShowMore}
               className="w-full text-teal-500  text-sm py-7 self-center"
