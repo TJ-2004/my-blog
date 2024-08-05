@@ -196,7 +196,7 @@ export default function CommentSection({ postId }) {
           <div className="text-center">
             <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mx-auto mb-4 " />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              Are you sure you want to delete this post?
+              Are you sure you want to delete this comment?
             </h3>
             <div className="flex justify-center gap-8">
               <Button
