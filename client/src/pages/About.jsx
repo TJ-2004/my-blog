@@ -26,7 +26,7 @@ const About = () => {
 
             <p>
               We encourage you to leave comments on our posts and engage with
-              other readers. You can like other people's comments and reply to
+              other readers. You can like other people comments and reply to
               them as well. We believe that a community of learners can help
               each other grow and improve.
             </p>
