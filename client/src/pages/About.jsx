@@ -4,21 +4,24 @@ const About = () => {
       <div className="max-w-2xl mx-auto p-3 text-center">
         <div>
           <h1 className="text-3xl font font-semibold text-center my-7">
-            About Sahand' Blog
+            About Me!!
           </h1>
           <div className="text-md text-gray-500 flex flex-col gap-6">
             <p>
-              Welcome to Sahand's Blog! This blog was created by Sahand Ghavidel
-              as a personal project to share his thoughts and ideas with the
-              world. Sahand is a passionate developer who loves to write about
-              technology, coding, and everything in between.
+              Full-stack developer with extensive experience in emerging
+              technologies, proficient and driven. I possess diverse technical
+              skills, including proficiency in programming languages such as
+              C++,TypeScript,Solidity and more. With practical knowledge in
+              blockchain and web3, I am capable of tackling complex projects in
+              the tech industry with ease. Furthermore, I have demonstrated
+              natural leadership skills through various group projects.
             </p>
 
             <p>
-              On this blog, you'll find weekly articles and tutorials on topics
-              such as web development, software engineering, and programming
-              languages. Sahand is always learning and exploring new
-              technologies, so be sure to check back often for new content!
+              My Favorite tech Stack is MERN Along with my technical expertise,
+              I possess strong soft skills such as communication, critical
+              thinking, and problem-solving. I am a team player and enjoy
+              collaborating with others to achieve common goals.
             </p>
 
             <p>
